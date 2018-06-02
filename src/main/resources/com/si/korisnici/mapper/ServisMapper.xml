@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.si.korisnici.mapper.ServisMapper">
+
+    <resultMap id="servisMapper" type="Servis" autoMapping="true">
+        <id property="sifraMinistarstva" column="sifra_ministarstva"/>
+        <id property="sifraServisa" column="sifra_servisa"/>
+        <result property="imeServisa" column="ime_servisa"/>
+    </resultMap>
+
+
+    <insert id="dodaj">
+        insert into SERVIS (sifra_ministarstva, sifra_servisa, ime_servisa)
+        values (#{sifraMinistarstva}, #{sifraServisa}, #{imeServisa})
+    </insert>
+
+    <update id="izmeni">
+        update SERVIS
+        set ime_servisa = #{imeServisa}
+        where sifra_ministarstva = #{sifraMinistarstva} and sifra_servisa = #{sifraServisa}
+    </update>
+
+    <delete id="brisiZaSifru"></delete>
+
+    <select id="listaj" resultType="com.si.korisnici.domain.Servis">
+        <include refid="listajServise"/>
+    </select>
+
+    <select id="listajZaSifruISifruMinistarstva" resultType="com.si.korisnici.domain.Servis">
+        <include refid="listajServise"/>
+        where sifra_ministarstva=#{sifraMinistarstva} and sifra_servisa=#{sifraServisa}
+    </select>
+
+
+    <sql id="listajServise">
+        select *
+        from SERVIS
+    </sql>
+
+
+</mapper>

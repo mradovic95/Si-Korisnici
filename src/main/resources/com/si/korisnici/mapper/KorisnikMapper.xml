@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.si.korisnici.mapper.KorisnikMapper">
+
+    <resultMap id="korisnikMapper" type="Korisnik" autoMapping="true">
+        <id property="sifraKorisnika" column="sifra_korisnika"/>
+        <result property="emailKorisnika" column="email_korisnika"/>
+        <result property="usernameKorisnika" column="username_korisnika"/>
+        <result property="passwordKorisnika" column="password_korisnika"/>
+    </resultMap>
+
+    <insert id="dodaj">
+        insert into KORISNIK (sifra_korisnika, email_korisnika, username_korisnika, password_korisnika)
+        values (#{sifraKorisnika}, #{emailKorisnika}, #{usernameKorisnika},
+                #{passwordKorisnika})
+    </insert>
+
+    <update id="izmeni">
+        update KORISNIK
+        set email_korisnika    = #{emailKorisnika}, username_korisnika = #{usernameKorisnika},
+            password_korisnika = #{passwordKorisnika}
+        where sifra_korisnika = #{sifraKorisnika}
+    </update>
+
+    <delete id="brisiZaSifru">
+        delete from KORISNIK
+        where sifra_korisnika = #{sifraKorisnika}
+    </delete>
+
+    <select id="listaj" resultMap="korisnikMapper">
+        <include refid="listajKorisnike"/>
+    </select>
+
+    <select id="listajZaSifru" resultMap="korisnikMapper">
+        <include refid="listajKorisnike"/>
+        where sifra_korisnika=#{sifraKorisnika}
+    </select>
+
+    <sql id="listajKorisnike">
+        select *
+        from KORISNIK
+    </sql>
+
+
+</mapper>
