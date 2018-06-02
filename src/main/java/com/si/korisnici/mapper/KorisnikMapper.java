@@ -8,13 +8,17 @@ import java.util.List;
 @Mapper
 public interface KorisnikMapper {
 
-    public List<Korisnik> listaj();
+    List<Korisnik> listaj();
 
-    public Korisnik listajZaSifru(String sifraKorisnika);
+    Korisnik listajZaSifru(String sifraKorisnika);
 
-    public void dodaj(Korisnik korisnik);
+    Korisnik listajZaUsername(String usernameKorisnika);
 
-    public void brisiZaSifru(String sifraKorisnika);
+    Korisnik listajZaUsernameIPassword(String usernameKorisnika, String passwordKorisnika);
 
-    public void izmeni(Korisnik korisnik);
+    void dodaj(Korisnik korisnik);
+
+    void brisiZaSifru(String sifraKorisnika);
+
+    void izmeni(Korisnik korisnik);
 }

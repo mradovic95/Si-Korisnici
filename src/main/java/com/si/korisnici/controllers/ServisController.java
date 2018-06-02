@@ -29,11 +29,13 @@ public class ServisController {
         return new ResponseEntity<>(servisService.listaj(), HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/{sifraServisa}")
-//    @ApiOperation(value = "Dohvati koriskika za sifru")
-//    public ResponseEntity<Servis> listajZaSifru(@PathVariable String sifraServisa) {
-//        return new ResponseEntity<>(servisService.listajZaSifru(sifraServisa), HttpStatus.OK);
-//    }
+    // @TODO: Razmsliti o boljem nazivu
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Dohvati servis za sifru i sifru ministarstva")
+    public ResponseEntity<Servis> listajZaSifru(@PathVariable String id) {
+        String[] idParametri = id.split(",");
+        return new ResponseEntity<>(servisService.listajZaSifru(idParametri[0], idParametri[1]), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<?> dodaj(@Valid @RequestBody Servis servis) {
@@ -42,9 +44,10 @@ public class ServisController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/{sifraServisa}")
-    public ResponseEntity<?> brisi(@PathVariable String sifraServisa) {
-        servisService.brisiZaSifru(sifraServisa);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> brisi(@PathVariable String id) {
+        String[] idParametri = id.split(",");
+        servisService.brisiZaSifru(idParametri[0], idParametri[1]);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

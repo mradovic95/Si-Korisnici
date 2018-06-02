@@ -7,6 +7,11 @@
         <result property="emailKorisnika" column="email_korisnika"/>
         <result property="usernameKorisnika" column="username_korisnika"/>
         <result property="passwordKorisnika" column="password_korisnika"/>
+        <collection property="privilegije" ofType="Privilegija" javaType="ArrayList">
+            <id property="sifraServisa" column="au_sifra_servisa"/>
+            <id property="sifraMinistarstva" column="au_sifra_ministarstva"/>
+            <id property="sifraNivoaPristupa" column="au_sifra_nivoa_pristupa"/>
+        </collection>
     </resultMap>
 
     <insert id="dodaj">
@@ -36,9 +41,26 @@
         where sifra_korisnika=#{sifraKorisnika}
     </select>
 
+    <select id="listajZaUsername" resultMap="korisnikMapper">
+        <include refid="listajKorisnike"/>
+        where username_korisnika=#{usernameKorisnika}
+    </select>
+
+    <select id="listajZaUsernameIPassword" resultMap="korisnikMapper">
+        <include refid="listajKorisnike"/>
+        where username_korisnika=#{usernameKorisnika} and password_korisnika=#{passwordKorisnika}
+    </select>
+
     <sql id="listajKorisnike">
-        select *
-        from KORISNIK
+        select
+            K.sifra_korisnika,
+            K.email_korisnika,
+            K.username_korisnika,
+            K.password_korisnika,
+            A.sifra_servisa        as au_sifra_servisa,
+            A.sifra_ministarstva   as au_sifra_ministarstva,
+            A.sifra_nivoa_pristupa as au_sifra_nivoa_pristupa
+        from KORISNIK as K left join AUTORIZACIJA as A on K.sifra_korisnika = A.sifra_korisnika
     </sql>
 
 

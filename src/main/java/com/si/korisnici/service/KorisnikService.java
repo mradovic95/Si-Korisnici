@@ -2,6 +2,7 @@ package com.si.korisnici.service;
 
 import com.si.korisnici.domain.Korisnik;
 import com.si.korisnici.mapper.KorisnikMapper;
+import com.si.korisnici.mapper.PrivilegijaMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,13 @@ import java.util.List;
 public class KorisnikService {
 
     private KorisnikMapper korisnikMapper;
+    private TokenService tokenService;
+    private PrivilegijaMapper privilegijaMapper;
 
-    public KorisnikService(KorisnikMapper korisnikMapper) {
+    public KorisnikService(KorisnikMapper korisnikMapper, TokenService tokenService, PrivilegijaMapper privilegijaMapper) {
         this.korisnikMapper = korisnikMapper;
+        this.tokenService = tokenService;
+        this.privilegijaMapper = privilegijaMapper;
     }
 
     public List<Korisnik> listaj() {
@@ -27,9 +32,17 @@ public class KorisnikService {
         return korisnikMapper.listajZaSifru(sifraKorisnika);
     }
 
-    public void dodaj(Korisnik korisnik) {
+    public Korisnik dodaj(Korisnik korisnik) {
         log.info("Dodaj korisnika", korisnik);
-        korisnikMapper.dodaj(korisnik);
+        Korisnik korisnik1 = korisnikMapper.listajZaUsername(korisnik.getUsernameKorisnika());
+        if (korisnik1 == null) {
+            log.info("Uspesno dodavanje");
+            korisnikMapper.dodaj(korisnik);
+            korisnik.getPrivilegije().stream().forEach(p -> privilegijaMapper.dodaj(p));
+            return korisnik;
+        }
+        log.info("Neuspesno dodavanje");
+        return null;
     }
 
     public void brisiZaSifru(String sifraKorisnika) {
@@ -40,6 +53,16 @@ public class KorisnikService {
     public void izmeni(Korisnik korisnik) {
         log.info("Izmeni korisnika", korisnik);
         korisnikMapper.izmeni(korisnik);
+    }
+
+    public String login(Korisnik korisnik) {
+        log.info("Loginuje se korisnik: ", korisnik);
+        Korisnik korisnik1 = korisnikMapper.listajZaUsernameIPassword(korisnik.getUsernameKorisnika(), korisnik.getPasswordKorisnika());
+        if (korisnik1 != null) {
+            return tokenService.generate(korisnik);
+        }
+        return "Los username ili password";
+
     }
 
 }

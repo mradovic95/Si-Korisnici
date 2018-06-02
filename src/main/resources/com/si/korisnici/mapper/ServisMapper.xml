@@ -20,7 +20,10 @@
         where sifra_ministarstva = #{sifraMinistarstva} and sifra_servisa = #{sifraServisa}
     </update>
 
-    <delete id="brisiZaSifru"></delete>
+    <delete id="brisiZaSifruISifruMinistarstva">
+        delete from SERVIS
+        where sifra_ministarstva = #{sifraMinistarstva} and sifra_servisa = #{sifraServisa}
+    </delete>
 
     <select id="listaj" resultType="com.si.korisnici.domain.Servis">
         <include refid="listajServise"/>

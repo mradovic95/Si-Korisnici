@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.si.korisnici.mapper.NivoPristupaMapper">
+
+    <resultMap id="nivoPristupaMapper" type="NivoPristupa" autoMapping="true">
+        <id property="sifraMinistarstva" column="sifra_ministarstva"/>
+        <id property="sifraNivoaPristupa" column="sifra_nivoa_pristupa"/>
+        <result property="imeNivoaPristupa" column="ime_nivoa_pristupa"/>
+    </resultMap>
+
+
+    <insert id="dodaj">
+        insert into NIVO_PRISTUPA (sifra_ministarstva, sifra_nivoa_pristupa, ime_nivoa_pristupa)
+        values (#{sifraMinistarstva}, #{sifraNivoaPristupa}, #{imeNivoaPristupa})
+    </insert>
+
+    <update id="izmeni">
+        update NIVO_PRISTUPA
+        set ime_nivoa_pristupa = #{imeNivoaPristupa}
+        where sifra_ministarstva = #{sifraMinistarstva} and sifra_nivoa_pristupa = #{sifraNivoaPristupa}
+
+    </update>
+
+    <delete id="brisiZaSifruISifruMinistarstva">
+        delete from NIVO_PRISTUPA
+        where sifra_ministarstva = #{sifraMinistarstva} and sifra_nivoa_pristupa = #{sifraNivoaPristupa}
+
+    </delete>
+
+    <select id="listaj" resultType="com.si.korisnici.domain.NivoPristupa">
+        <include refid="listajNivoePristupa"/>
+    </select>
+
+    <select id="listajZaSifruISifruMinistarstva" resultType="com.si.korisnici.domain.NivoPristupa">
+        <include refid="listajNivoePristupa"/>
+        where sifra_ministarstva=#{sifraMinistarstva} and sifra_nivoa_pristupa=#{sifraNivoaPristupa}
+    </select>
+
+    <sql id="listajNivoePristupa">
+        select *
+        from NIVO_PRISTUPA
+    </sql>
+</mapper>

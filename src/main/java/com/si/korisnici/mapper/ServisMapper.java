@@ -8,14 +8,14 @@ import java.util.List;
 @Mapper
 public interface ServisMapper {
 
-    public List<Servis> listaj();
+    List<Servis> listaj();
 
-    public Servis listajZaSifruISifruMinistarstva(String sifraMinistarstva, String sifraServisa);
+    Servis listajZaSifruISifruMinistarstva(String sifraServisa, String sifraMinistarstva);
 
-    public void dodaj(Servis servis);
+    void dodaj(Servis servis);
 
-    public void brisiZaSifru(String sifraServisa);
+    void brisiZaSifruISifruMinistarstva(String sifraServisa, String sifraMinistarstva);
 
-    public void izmeni(Servis servis);
+    void izmeni(Servis servis);
 
 }

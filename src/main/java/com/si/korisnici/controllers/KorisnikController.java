@@ -37,10 +37,13 @@ public class KorisnikController {
     }
 
     @PostMapping
-    public ResponseEntity<?> dodaj(@Valid @RequestBody Korisnik korisnik) {
+    public ResponseEntity<Korisnik> dodaj(@Valid @RequestBody Korisnik korisnik) {
 
-        korisnikService.dodaj(korisnik);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Korisnik korisnik1 = korisnikService.dodaj(korisnik);
+        if (korisnik1 == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(korisnik1, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{sifraKorisnika}")
@@ -53,6 +56,11 @@ public class KorisnikController {
     public ResponseEntity<?> izmeni(@Valid @RequestBody Korisnik korisnik) {
         korisnikService.izmeni(korisnik);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<String> login(@Valid @RequestBody Korisnik korisnik) {
+        return new ResponseEntity<>(korisnikService.login(korisnik), HttpStatus.OK);
     }
 
 
