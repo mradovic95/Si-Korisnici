@@ -10,4 +10,8 @@ public interface PrivilegijaMapper {
 
     void brisiZaSifruKorisnika(String sifraKorisnika);
 
+    void brisiZaSifruServisaISifruMinistarstva(String sifraServisa, String sifraMinistarstva);
+
+    void brisiZaSifruNivoaPristupaISifruMinistarstva(String sifraNivoaPristupa, String sifraMinistarstva);
+
 }

@@ -2,6 +2,7 @@ package com.si.korisnici.service;
 
 import com.si.korisnici.domain.NivoPristupa;
 import com.si.korisnici.mapper.NivoPristupaMapper;
+import com.si.korisnici.mapper.PrivilegijaMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class NivoPristupaServis {
 
     private NivoPristupaMapper nivoPristupaMapper;
+    private PrivilegijaMapper privilegijaMapper;
 
-    public NivoPristupaServis(NivoPristupaMapper nivoPristupaMapper) {
+    public NivoPristupaServis(NivoPristupaMapper nivoPristupaMapper, PrivilegijaMapper privilegijaMapper) {
         this.nivoPristupaMapper = nivoPristupaMapper;
+        this.privilegijaMapper = privilegijaMapper;
     }
 
     public List<NivoPristupa> listaj() {
@@ -30,7 +33,7 @@ public class NivoPristupaServis {
     public void brisiZaSifru(String sifraNivoaPristupa, String sifraMinistarstva) {
         log.info("Brisi za sifru i sifru ministarstva", sifraNivoaPristupa, sifraMinistarstva);
         nivoPristupaMapper.brisiZaSifruISifruMinistarstva(sifraNivoaPristupa, sifraMinistarstva);
-
+        nivoPristupaMapper.brisiZaSifruISifruMinistarstva(sifraNivoaPristupa, sifraMinistarstva);
     }
 
     public void dodaj(NivoPristupa nivoPristupa) {

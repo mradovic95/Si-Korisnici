@@ -1,6 +1,7 @@
 package com.si.korisnici.controllers;
 
 import com.si.korisnici.domain.NivoPristupa;
+import com.si.korisnici.security.CheckSecurity;
 import com.si.korisnici.service.NivoPristupaServis;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,34 +26,38 @@ public class NivoPristupaController {
 
     @GetMapping
     @ApiOperation(value = "Dohvati listu svih nivoa pristupa")
-    public ResponseEntity<List<NivoPristupa>> listaj() {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<List<NivoPristupa>> listaj(@RequestHeader String Authorization) {
         return new ResponseEntity<>(nivoPristupaServis.listaj(), HttpStatus.OK);
     }
 
-    // @TODO: Razmsliti o boljem nazivu
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Dohvati nivo pristupa za sifru i sifru ministarstva")
-    public ResponseEntity<NivoPristupa> listajZaSifru(@PathVariable String id) {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<NivoPristupa> listajZaSifru(@PathVariable String id,@RequestHeader String Authorization) {
         String[] idParametri = id.split(",");
         return new ResponseEntity<>(nivoPristupaServis.listajZaSifru(idParametri[0], idParametri[1]), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> dodaj(@Valid @RequestBody NivoPristupa nivoPristupa) {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<?> dodaj(@Valid @RequestBody NivoPristupa nivoPristupa,@RequestHeader String Authorization) {
 
         nivoPristupaServis.dodaj(nivoPristupa);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> brisi(@PathVariable String id) {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<?> brisi(@PathVariable String id,@RequestHeader String Authorization) {
         String[] idParametri = id.split(",");
         nivoPristupaServis.brisiZaSifru(idParametri[0], idParametri[1]);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> izmeni(@Valid @RequestBody NivoPristupa nivoPristupa) {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<?> izmeni(@Valid @RequestBody NivoPristupa nivoPristupa,@RequestHeader String Authorization) {
         nivoPristupaServis.izmeni(nivoPristupa);
         return new ResponseEntity<>(HttpStatus.OK);
     }

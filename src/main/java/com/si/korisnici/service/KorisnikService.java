@@ -51,13 +51,8 @@ public class KorisnikService {
 
     public void brisiZaSifru(String sifraKorisnika) {
         log.info("Brisi za sifru", sifraKorisnika);
-        Korisnik korisnik = korisnikMapper.listajZaSifru(sifraKorisnika);
-        if (korisnik != null) {
-            log.info("Uspesno brisanje");
-            privilegijaMapper.brisiZaSifruKorisnika(sifraKorisnika);
-            korisnikMapper.brisiZaSifru(sifraKorisnika);
-        }
-        log.info("Neuspesno brisanje");
+        privilegijaMapper.brisiZaSifruKorisnika(sifraKorisnika);
+        korisnikMapper.brisiZaSifru(sifraKorisnika);
     }
 
     public void izmeni(Korisnik korisnik) {

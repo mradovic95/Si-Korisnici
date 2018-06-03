@@ -1,6 +1,7 @@
 package com.si.korisnici.controllers;
 
 import com.si.korisnici.domain.Korisnik;
+import com.si.korisnici.security.CheckSecurity;
 import com.si.korisnici.service.KorisnikService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,18 +27,20 @@ public class KorisnikController {
 
     @GetMapping
     @ApiOperation(value = "Dohvati listu svih korisnika")
-    public ResponseEntity<List<Korisnik>> listaj() {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<List<Korisnik>> listaj(@RequestHeader String Authorization) {
         return new ResponseEntity<>(korisnikService.listaj(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{sifraKorisnika}")
     @ApiOperation(value = "Dohvati koriskika za sifru")
-    public ResponseEntity<Korisnik> listajZaSifru(@PathVariable String sifraKorisnika) {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<Korisnik> listajZaSifru(@PathVariable String sifraKorisnika, @RequestHeader String Authorization) {
         return new ResponseEntity<>(korisnikService.listajZaSifru(sifraKorisnika), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Korisnik> dodaj(@Valid @RequestBody Korisnik korisnik) {
+    public ResponseEntity<Korisnik> dodaj(@Valid @RequestBody Korisnik korisnik, @RequestHeader String Authorization) {
 
         Korisnik korisnik1 = korisnikService.dodaj(korisnik);
         if (korisnik1 == null) {
@@ -47,13 +50,15 @@ public class KorisnikController {
     }
 
     @DeleteMapping(value = "/{sifraKorisnika}")
-    public ResponseEntity<?> brisi(@PathVariable String sifraKorisnika) {
+    @CheckSecurity(role = "2")
+    public ResponseEntity<?> brisi(@PathVariable String sifraKorisnika, @RequestHeader String Authorization) {
         korisnikService.brisiZaSifru(sifraKorisnika);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> izmeni(@Valid @RequestBody Korisnik korisnik) {
+    @CheckSecurity
+    public ResponseEntity<?> izmeni(@Valid @RequestBody Korisnik korisnik, @RequestHeader String Authorization) {
         korisnikService.izmeni(korisnik);
         return new ResponseEntity<>(HttpStatus.OK);
     }

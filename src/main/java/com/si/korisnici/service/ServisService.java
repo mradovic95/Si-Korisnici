@@ -1,6 +1,7 @@
 package com.si.korisnici.service;
 
 import com.si.korisnici.domain.Servis;
+import com.si.korisnici.mapper.PrivilegijaMapper;
 import com.si.korisnici.mapper.ServisMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import java.util.List;
 public class ServisService {
 
     private ServisMapper servisMapper;
+    private PrivilegijaMapper privilegijaMapper;
 
-    public ServisService(ServisMapper servisMapper) {
+    public ServisService(ServisMapper servisMapper, PrivilegijaMapper privilegijaMapper) {
         this.servisMapper = servisMapper;
+        this.privilegijaMapper = privilegijaMapper;
     }
 
     public List<Servis> listaj() {
@@ -34,6 +37,7 @@ public class ServisService {
 
     public void brisiZaSifru(String sifraServisa, String sifraMinistarstva) {
         log.info("Brisi za sifru i sifru ministarstva", sifraServisa, sifraMinistarstva);
+        privilegijaMapper.brisiZaSifruServisaISifruMinistarstva(sifraServisa, sifraMinistarstva);
         servisMapper.brisiZaSifruISifruMinistarstva(sifraServisa, sifraMinistarstva);
     }
 

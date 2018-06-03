@@ -14,4 +14,14 @@
         where sifra_korisnika = #{sifraKorisnika}
     </delete>
 
+    <delete id="brisiZaSifruServisaISifruMinistarstva">
+        delete from AUTORIZACIJA
+        where sifra_korisnika = #{sifraServisa} and sifra_ministarstva = #{sifraMinistarstva}
+    </delete>
+
+    <delete id="brisiZaSifruNivoaPristupaISifruMinistarstva">
+        delete from AUTORIZACIJA
+        where sifra_korisnika = #{sifraNivoPristupa} and sifra_ministarstva = #{sifraMinistarstva}
+    </delete>
+
 </mapper>
