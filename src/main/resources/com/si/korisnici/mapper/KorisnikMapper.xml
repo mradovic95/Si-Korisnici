@@ -38,17 +38,17 @@
 
     <select id="listajZaSifru" resultMap="korisnikMapper">
         <include refid="listajKorisnike"/>
-        where sifra_korisnika=#{sifraKorisnika}
+        where K.sifra_korisnika=#{sifraKorisnika}
     </select>
 
     <select id="listajZaUsername" resultMap="korisnikMapper">
         <include refid="listajKorisnike"/>
-        where username_korisnika=#{usernameKorisnika}
+        where K.username_korisnika=#{usernameKorisnika}
     </select>
 
     <select id="listajZaUsernameIPassword" resultMap="korisnikMapper">
         <include refid="listajKorisnike"/>
-        where username_korisnika=#{usernameKorisnika} and password_korisnika=#{passwordKorisnika}
+        where K.username_korisnika=#{usernameKorisnika} and K.password_korisnika=#{passwordKorisnika}
     </select>
 
     <sql id="listajKorisnike">

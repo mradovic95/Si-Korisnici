@@ -1,6 +1,5 @@
 package com.si.korisnici.service;
 
-import com.si.korisnici.domain.Korisnik;
 import com.si.korisnici.domain.NivoPristupa;
 import com.si.korisnici.mapper.NivoPristupaMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,7 @@ public class NivoPristupaServis {
 
     private NivoPristupaMapper nivoPristupaMapper;
 
-    public NivoPristupaServis(NivoPristupaMapper nivoPristupaMapper){
+    public NivoPristupaServis(NivoPristupaMapper nivoPristupaMapper) {
         this.nivoPristupaMapper = nivoPristupaMapper;
     }
 

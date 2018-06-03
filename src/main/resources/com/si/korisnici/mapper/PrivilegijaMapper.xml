@@ -9,4 +9,9 @@
                 #{sifraNivoaPristupa})
     </insert>
 
+    <delete id="brisiZaSifruKorisnika">
+        delete from AUTORIZACIJA
+        where sifra_korisnika = #{sifraKorisnika}
+    </delete>
+
 </mapper>

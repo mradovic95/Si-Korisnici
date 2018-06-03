@@ -8,4 +8,6 @@ public interface PrivilegijaMapper {
 
     void dodaj(Privilegija privilegija);
 
+    void brisiZaSifruKorisnika(String sifraKorisnika);
+
 }

@@ -38,7 +38,11 @@ public class KorisnikService {
         if (korisnik1 == null) {
             log.info("Uspesno dodavanje");
             korisnikMapper.dodaj(korisnik);
-            korisnik.getPrivilegije().stream().forEach(p -> privilegijaMapper.dodaj(p));
+            // Sacuvaj sve privilegije
+            korisnik.getPrivilegije().stream().forEach(p -> {
+                p.setSifraKorisnika(korisnik.getSifraKorisnika());
+                privilegijaMapper.dodaj(p);
+            });
             return korisnik;
         }
         log.info("Neuspesno dodavanje");
@@ -47,7 +51,13 @@ public class KorisnikService {
 
     public void brisiZaSifru(String sifraKorisnika) {
         log.info("Brisi za sifru", sifraKorisnika);
-        korisnikMapper.brisiZaSifru(sifraKorisnika);
+        Korisnik korisnik = korisnikMapper.listajZaSifru(sifraKorisnika);
+        if (korisnik != null) {
+            log.info("Uspesno brisanje");
+            privilegijaMapper.brisiZaSifruKorisnika(sifraKorisnika);
+            korisnikMapper.brisiZaSifru(sifraKorisnika);
+        }
+        log.info("Neuspesno brisanje");
     }
 
     public void izmeni(Korisnik korisnik) {
@@ -59,7 +69,7 @@ public class KorisnikService {
         log.info("Loginuje se korisnik: ", korisnik);
         Korisnik korisnik1 = korisnikMapper.listajZaUsernameIPassword(korisnik.getUsernameKorisnika(), korisnik.getPasswordKorisnika());
         if (korisnik1 != null) {
-            return tokenService.generate(korisnik);
+            return tokenService.generate(korisnik1);
         }
         return "Los username ili password";
 
