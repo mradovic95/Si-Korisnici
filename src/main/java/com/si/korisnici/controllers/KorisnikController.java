@@ -40,7 +40,7 @@ public class KorisnikController {
     }
 
     @PostMapping
-    public ResponseEntity<Korisnik> dodaj(@Valid @RequestBody Korisnik korisnik, @RequestHeader String Authorization) {
+    public ResponseEntity<Korisnik> dodaj(@Valid @RequestBody Korisnik korisnik) {
 
         Korisnik korisnik1 = korisnikService.dodaj(korisnik);
         if (korisnik1 == null) {

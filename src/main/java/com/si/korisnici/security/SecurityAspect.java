@@ -19,8 +19,8 @@ import java.util.List;
 @Configuration
 public class SecurityAspect {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    @Value("${servis.sifraServisa}")
+    private String sifraServisa;
 
     private TokenService tokenService;
 
@@ -61,7 +61,11 @@ public class SecurityAspect {
 
         List<Object> privilegije = (List<Object>) claims.get("privilegije", Object.class);
         for (Object privilegija : privilegije) {
-            if (((LinkedHashMap) privilegija).get("sifraNivoaPristupa").equals(checkSecurity.role())) {
+
+
+            if (((LinkedHashMap) privilegija).get("sifraNivoaPristupa").equals(checkSecurity.role())
+                    && ((LinkedHashMap) privilegija).get("sifraServisa").equals(sifraServisa)) {
+
                 Object value = joinPoint.proceed();
                 return value;
             }
