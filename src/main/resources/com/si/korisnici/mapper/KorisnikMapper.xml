@@ -16,7 +16,7 @@
 
     <insert id="dodaj">
         insert into KORISNIK (sifra_korisnika, email_korisnika, username_korisnika, password_korisnika)
-        values (#{sifraKorisnika}, #{emailKorisnika}, #{usernameKorisnika},
+        values (SUBSTRING(MD5(RAND()) FROM 1 FOR 5), #{emailKorisnika}, #{usernameKorisnika},
                 #{passwordKorisnika})
     </insert>
 
